@@ -1,0 +1,265 @@
+/* style.css */
+
+/* ------------------- */
+/* Custom Properties   */
+/* ------------------- */
+:root {
+	--color-text: #111;
+	--color-bg: #fff;
+	--color-primary: #007bff;
+	--color-border: #ddd;
+	--color-overlay: rgba(0, 0, 0, 0.5);
+
+	--font-family-base: system-ui, -apple-system, sans-serif;
+	--header-height: 60px;
+	--sidebar-width-md: 280px;
+	--sidebar-width-lg: 320px;
+	--transition-speed: 0.3s;
+}
+
+/* ------------------- */
+/* Reset & Base Styles */
+/* ------------------- */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: var(--font-family-base);
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	line-height: 1.6;
+}
+
+/* Visually-hidden class for accessibility */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+/* ------------------- */
+/* Main Layout         */
+/* ------------------- */
+.page-wrapper {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.content-wrapper {
+	display: flex;
+	flex: 1;
+}
+
+#main-content {
+	flex-grow: 1;
+	padding: 1.5rem;
+	transition: margin var(--transition-speed) ease;
+}
+
+/* ------------------- */
+/* Header              */
+/* ------------------- */
+.page-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: var(--header-height);
+	padding-inline: 1rem;
+	border-block-end: 1px solid var(--color-border);
+	background-color: var(--color-bg);
+}
+
+.logo {
+	color: var(--color-primary);
+	/* The logo is centered by the space-between on the parent */
+}
+
+.sidebar-trigger,
+.desktop-only button {
+	background: none;
+	border: 1px solid var(--color-border);
+	padding: 0.5rem 0.75rem;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+/* ------------------- */
+/* Sidebars            */
+/* ------------------- */
+.sidebar {
+	position: fixed;
+	inset-block-start: 0;
+	inset-block-end: 0;
+	width: 100%; /* Full width on mobile */
+	max-width: 100vw;
+	z-index: 1000;
+	background-color: var(--color-bg);
+	border-inline-end: 1px solid var(--color-border);
+	visibility: hidden; /* Hidden by default */
+	transition: visibility var(--transition-speed) ease;
+	display: flex;
+	flex-direction: column;
+}
+
+#right-sidebar {
+	inset-inline-start: auto;
+	inset-inline-end: 0;
+	border-inline-end: none;
+	border-inline-start: 1px solid var(--color-border);
+}
+
+/* Open states */
+body.left-sidebar-open #left-sidebar,
+body.right-sidebar-open #right-sidebar {
+	visibility: visible;
+}
+
+.sidebar-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	border-block-end: 1px solid var(--color-border);
+	height: var(--header-height);
+}
+
+.close-btn {
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+
+.sidebar nav ul,
+#toc-list {
+	list-style: none;
+	padding: 1rem;
+}
+
+.sidebar a {
+	display: block;
+	padding: 0.5rem;
+	text-decoration: none;
+	color: var(--color-text);
+	border-radius: 4px;
+}
+.sidebar a:hover {
+	background-color: #f0f0f0;
+}
+
+.toc-search {
+	padding: 1rem;
+	border-block-end: 1px solid var(--color-border);
+}
+
+#toc-search-input {
+	width: 100%;
+	padding: 0.5rem;
+	border: 1px solid var(--color-border);
+	border-radius: 4px;
+}
+
+/* Backdrop for open sidebars on mobile */
+body.sidebar-open::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	background-color: var(--color-overlay);
+	z-index: 999;
+}
+
+/* ------------------- */
+/* Popover (Desktop Menu) */
+/* ------------------- */
+#menu-popover {
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	background: var(--color-bg);
+}
+
+#menu-popover::backdrop {
+	background-color: var(--color-overlay);
+	backdrop-filter: blur(2px);
+}
+
+/* ------------------- */
+/* Responsive Design   */
+/* ------------------- */
+
+/* Tablet and up: Squeezing effect */
+@media (min-width: 768px) {
+	.sidebar {
+		position: static !important; /* No longer fixed */
+		flex-shrink: 0;
+		width: 0; /* Hidden by default */
+		transform: none !important; /* Override fixed positioning transform */
+		transition:
+			width var(--transition-speed) ease,
+			visibility var(--transition-speed) ease;
+		height: auto;
+		overflow: hidden; /* Hide content when width is 0 */
+		visibility: hidden; /* Hide content when closed */
+		inset: auto !important; /* Remove any fixed positioning */
+		z-index: auto !important; /* Reset z-index */
+	}
+
+	body.left-sidebar-open #left-sidebar,
+	body.right-sidebar-open #right-sidebar {
+		width: var(--sidebar-width-md);
+		visibility: visible;
+	}
+
+	/* Hide mobile backdrop */
+	body.sidebar-open::before {
+		display: none;
+	}
+}
+
+/* Desktop and up: Left sidebar becomes popover */
+@media (min-width: 1024px) {
+	.mobile-only {
+		display: none !important;
+	}
+
+	/* Hide the actual left sidebar element, as it's replaced by the popover */
+	#left-sidebar {
+		display: none;
+	}
+
+	/* Adjust sidebar width for larger screens */
+	body.right-sidebar-open #right-sidebar {
+		width: var(--sidebar-width-lg);
+	}
+}
+
+/* Hide desktop elements on smaller screens */
+@media (max-width: 1023.98px) {
+	.desktop-only {
+		display: none !important;
+	}
+}
+
+/* Prevent transition flashing during responsive breakpoint changes */
+@media (min-width: 767px) and (max-width: 769px) {
+	.sidebar {
+		transition: none !important;
+		visibility: hidden !important;
+	}
+}

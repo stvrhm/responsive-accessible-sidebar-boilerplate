@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Minimal Sidebar Layout</title>
+		<link rel="stylesheet" href="style.css" />
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<div class="page-wrapper">
+			<header class="page-header">
+				<!-- Left sidebar trigger (mobile/tablet) -->
+				<button
+					id="left-sidebar-trigger"
+					class="sidebar-trigger mobile-only"
+					aria-controls="left-sidebar"
+					aria-expanded="false"
+					aria-label="Open support menu"
+				>
+					⋯
+				</button>
+
+				<!-- Desktop navigation using Popover API -->
+				<nav class="desktop-only">
+					<button popovertarget="menu-popover" aria-label="Open main menu">
+						Menu
+					</button>
+				</nav>
+
+				<a href="#" class="logo" aria-label="Homepage">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						width="36"
+						height="36"
+						fill="currentColor"
+						aria-hidden="true"
+					>
+						<path
+							d="M12 2L1 9l4 12h14l4-12L12 2zm0 3.5l7 5.25-2.5 7.5H7.5L5 10.75 12 5.5z"
+						/>
+					</svg>
+				</a>
+
+				<!-- Right sidebar trigger -->
+				<button
+					id="right-sidebar-trigger"
+					class="sidebar-trigger"
+					aria-controls="right-sidebar"
+					aria-expanded="false"
+					aria-label="Open table of contents"
+				>
+					☰
+				</button>
+			</header>
+
+			<div class="content-wrapper">
+				<!-- Left Sidebar -->
+				<aside id="left-sidebar" class="sidebar" aria-hidden="true">
+					<div class="sidebar-header">
+						<h3>Support</h3>
+						<button
+							class="close-btn"
+							aria-label="Close support menu"
+							data-sidebar-id="left-sidebar"
+						>
+							&times;
+						</button>
+					</div>
+					<nav>
+						<ul>
+							<li><a href="#">Help Center</a></li>
+							<li><a href="#">Contact Support</a></li>
+							<li><a href="#">FAQ</a></li>
+							<li><a href="#">Report Issue</a></li>
+						</ul>
+					</nav>
+				</aside>
+
+				<!-- Main Content -->
+				<main id="main-content">
+					<h1>Main Content Area</h1>
+					<p>
+						This is the main content area. On medium and larger screens, it will
+						be "squeezed" when a sidebar is opened. On mobile, sidebars will
+						overlay this content.
+					</p>
+					<p>
+						Try resizing your browser window to see the different layouts for
+						mobile, tablet, and desktop.
+					</p>
+					<button id="rtl-toggle">Toggle RTL/LTR</button>
+				</main>
+
+				<!-- Right Sidebar -->
+				<aside id="right-sidebar" class="sidebar" aria-hidden="true">
+					<div class="sidebar-header">
+						<h3>Menu</h3>
+						<button
+							class="close-btn"
+							aria-label="Close menu"
+							data-sidebar-id="right-sidebar"
+						>
+							&times;
+						</button>
+					</div>
+					<nav>
+						<ul>
+							<li><a href="#">Home</a></li>
+							<li><a href="#">About</a></li>
+							<li><a href="#">Services</a></li>
+							<li><a href="#">Contact</a></li>
+						</ul>
+					</nav>
+				</aside>
+			</div>
+		</div>
+
+		<!-- Popover content for desktop menu -->
+		<div id="menu-popover" popover>
+			<nav>
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">About</a></li>
+					<li><a href="#">Services</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+	</body>
+</html>
